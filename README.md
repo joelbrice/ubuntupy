@@ -11,7 +11,9 @@ Foster a collaborative community: Encourage community contributions and knowledg
 ## AI-driven dependency prediction 
 Utilizes advanced machine learning models to analyze project code, dependencies, and environment variables.
 Conflict resolution: Efficiently resolves complex dependency conflicts using sophisticated algorithms.
-Performance optimization: Selects dependencies that prioritize performance, security, and compatibility.
+
+# Performance optimization
+Selects dependencies that prioritize performance, security, and compatibility.
 User-friendly interface: Provides an intuitive command-line interface for easy integration into your development workflows.
 
 ## Open-source and community-driven
