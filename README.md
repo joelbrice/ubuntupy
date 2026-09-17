@@ -1,27 +1,109 @@
-# UbuntuPy: AI-Powered Python Dependency Management
+# UbuntuPy
 
-UbuntuPy is an open-source project that revolutionizes Python dependency management. Inspired by the Ubuntu philosophy of human connection and shared knowledge, UbuntuPy leverages the power of Artificial Intelligence to:
+UbuntuPy is a production-ready Python dependency intelligence tool with a clean, extensible architecture.
+It analyzes project imports and environment signals, predicts dependencies through pluggable LLM providers, resolves conflicts, and can write a normalized `requirements.txt`.
 
-## Intelligently resolve dependencies
+## Highlights
 
-Predict optimal package versions, resolve conflicts, and optimize for performance and security.
-Streamline development workflows: Automate dependency management tasks, saving developers time and effort.
-Foster a collaborative community: Encourage community contributions and knowledge sharing within the Python ecosystem.
+- **Layered architecture** (analysis → model inference → dependency resolution)
+- **Multi-model support** (OpenAI-compatible, Anthropic-compatible, local model)
+- **Built-in local fine-tunable model** bootstrapped from open-source checkpoints
+- **Deterministic conflict handling** and dependency ordering
+- **Typed, testable modules** with clear extension points
 
-## Key Features:
+## Architecture at a glance
 
-## AI-driven dependency prediction
+- `ubuntupy/core.py`: Application orchestration and CLI entrypoint
+- `ubuntupy/config/`: Default config + user/env config merge
+- `ubuntupy/modules/analysis/`: Static code and environment analysis
+- `ubuntupy/modules/ai_model/`: Model interfaces, provider registry, local fine-tunable model
+- `ubuntupy/modules/dependency_resolver/`: Conflict resolution and optimization
+- `ubuntupy/modules/utils/`: Logging and requirements file IO
 
-Utilizes advanced machine learning models to analyze project code, dependencies, and environment variables.
-Conflict resolution: Efficiently resolves complex dependency conflicts using sophisticated algorithms.
+See `docs/architecture.md` for detailed architecture.
 
-# Performance optimization
+## Installation
 
-Selects dependencies that prioritize performance, security, and compatibility.
-User-friendly interface: Provides an intuitive command-line interface for easy integration into your development workflows.
+```bash
+pip install -e .
+```
 
-## Open-source and community-driven
+## CLI usage
 
-Actively welcomes contributions from the community.
-Fosters a collaborative environment for developers to learn and grow.
-Join the UbuntuPy community and experience the future of Python dependency management!
+```bash
+ubuntupy --project-path /path/to/project
+```
+
+Write `requirements.txt` directly:
+
+```bash
+ubuntupy --project-path /path/to/project --write
+```
+
+Use a custom config file:
+
+```bash
+ubuntupy --project-path /path/to/project --config /path/to/ubuntupy.config.json
+```
+
+## Configuration
+
+UbuntuPy ships with three configured models:
+
+- `openai`
+- `anthropic`
+- `local-fine-tunable` (default)
+
+Override defaults with `ubuntupy.config.json`:
+
+```json
+{
+  "default_model": "local-fine-tunable",
+  "allow_network_models": false,
+  "max_dependencies": 30,
+  "models": {
+    "local-fine-tunable": {
+      "provider": "local",
+      "model": "distilbert-base-uncased",
+      "enabled": true
+    }
+  }
+}
+```
+
+Environment overrides:
+
+- `UBUNTUPY_CONFIG`
+- `UBUNTUPY_DEFAULT_MODEL`
+- `UBUNTUPY_ALLOW_NETWORK_MODELS`
+
+## Local fine-tunable model
+
+UbuntuPy includes `UbuntuPyFineTunableModel`, which:
+
+1. Boots from an open-source base model identifier (metadata)
+2. Learns package frequency from training corpora
+3. Produces dependency predictions merged with existing pinned versions
+
+This gives teams an auditable, offline-capable model path while keeping interfaces compatible with external LLM providers.
+
+## Quality and standards
+
+- Strong typing and dataclasses
+- Clear module boundaries and single responsibility
+- Deterministic outputs for reproducibility
+- Unit tests for critical paths
+
+Run tests:
+
+```bash
+pytest -q
+```
+
+## Documentation
+
+- `docs/index.md`
+- `docs/installation.md`
+- `docs/usage.md`
+- `docs/architecture.md`
+- `docs/contributing.md`
