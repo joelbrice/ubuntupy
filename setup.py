@@ -1,18 +1,17 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 setup(
-    name='ubuntupy',
-    version='0.1.0',
-    description='AI-Powered Python Dependency Management',
-    author='Joel Tiogo',
-    author_email='tiogojoel@gmail.com',
-    packages=find_packages(),
-    install_requires=[
-        # Add required packages here
-    ],
+    name="ubuntupy",
+    version="0.2.0",
+    description="Production-ready AI-assisted Python dependency management",
+    author="Joel Tiogo",
+    author_email="tiogojoel@gmail.com",
+    packages=find_packages(exclude=("tests", "docs")),
+    python_requires=">=3.10",
+    install_requires=[],
     entry_points={
-        'console_scripts': [
-            'ubuntupy=ubuntupy.core:main',
+        "console_scripts": [
+            "ubuntupy=ubuntupy.core:main",
         ],
     },
 )
